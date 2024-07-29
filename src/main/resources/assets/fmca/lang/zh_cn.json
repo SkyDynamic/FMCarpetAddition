@@ -1,0 +1,7 @@
+{
+  "carpet.category.fmca": "FMCA",
+  "carpet.category.fmca_feature": "FMCA特性",
+
+  "carpet.rule.endGatewayDoNotAddLoadTicket.desc": "当返回折跃门底下方块为设定的方块时, 在穿过时不会添加加载票",
+  "carpet.rule.fixExtendedPistonDeleteFrontBlock.desc": "修复无头活塞收回能删除前方任何方块"
+}

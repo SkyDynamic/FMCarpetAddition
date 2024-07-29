@@ -1,0 +1,86 @@
+plugins {
+	id "fabric-loom" version "1.7-SNAPSHOT"
+	id "maven-publish"
+}
+
+version = project.property("mod.version")
+group = project.property("maven_group")
+
+base {
+	archivesName = project.archives_base_name
+}
+
+repositories {
+	maven {
+		"AliyunMaven"
+		url "https://maven.aliyun.com/repository/central"
+	}
+
+	maven {
+		"MasaMaven"
+		url "https://masa.dy.fi/maven"
+	}
+}
+
+dependencies {
+	// To change the versions see the gradle.properties file
+	minecraft "com.mojang:minecraft:${project.property("dependencies.minecraft_version")}"
+	mappings loom.officialMojangMappings()
+	modImplementation "net.fabricmc:fabric-loader:${project.property("dependencies.loader_version")}"
+
+	// Carpet
+	modImplementation "carpet:fabric-carpet:${project.property("dependencies.minecraft_version")}-${project.property("dependencies.carpet_core_version")}"
+
+	// Lombok
+	compileOnly 'org.projectlombok:lombok:1.18.34'
+	annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+	// Fabric API. This is technically optional, but you probably want it anyway.
+	// modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+}
+
+processResources {
+	inputs.property "version", project.property("mod.version")
+
+	filesMatching("fabric.mod.json") {
+		def valueMap = [
+				"id"	               : project.property("mod.id"),
+				"name"                 : project.property("mod.name"),
+				"description"          : project.property("mod.description"),
+				"version"              : project.property("mod.version"),
+				"loader_version"       : project.property("dependencies.loader_version"),
+				"minecraft_dependency" : project.property("dependencies.minecraft_dependency")
+		]
+		expand valueMap
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 21
+}
+
+java {
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+	from("LICENSE") {
+		rename { "${it}_${project.base.archivesName.get()}"}
+	}
+}
+
+// configure the maven publication
+publishing {
+	publications {
+		create("mavenJava", MavenPublication) {
+			artifactId = project.archives_base_name
+			from components.java
+		}
+	}
+	repositories {
+		mavenLocal()
+	}
+}

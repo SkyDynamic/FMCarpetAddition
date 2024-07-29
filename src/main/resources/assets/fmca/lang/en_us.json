@@ -1,0 +1,7 @@
+{
+  "carpet.category.fmca": "FMCA",
+  "carpet.category.fmca_feature": "FMCA Feature",
+
+  "carpet.rule.endGatewayDoNotAddLoadTicket.desc": "Do not add load ticket when through into endGateway",
+  "carpet.rule.fixExtendedPistonDeleteFrontBlock.desc": "Fix extended piston retraction can delete any front block"
+}

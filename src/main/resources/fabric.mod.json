@@ -1,0 +1,27 @@
+{
+	"schemaVersion": 1,
+	"id": "${id}",
+	"version": "${version}",
+	"name": "${name}",
+	"description": "${description}",
+	"authors": [
+		"SkyDynamic"
+	],
+	"contact": {
+	},
+	"license": "LGPL-v3",
+	"icon": "assets/fmca/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"io.github.skydynamic.FuckMojangCarpetAddition"
+		]
+	},
+	"mixins": [
+		"fmca.mixins.json"
+	],
+	"depends": {
+		"fabricloader": "${loader_version}",
+		"minecraft": "${minecraft_dependency}"
+	}
+}
