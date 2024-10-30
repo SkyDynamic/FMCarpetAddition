@@ -3,8 +3,12 @@
   "package": "io.github.skydynamic.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "MixinBlockStateBase",
+    "MixinCactusBlock",
     "MixinEndGatewayBlock",
-    "MixinPistonBaseBlock"
+    "MixinNoteBlock",
+    "MixinPistonBaseBlock",
+    "MixinThrownEnderpearl"
   ],
   "injectors": {
     "defaultRequire": 1
