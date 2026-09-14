@@ -3,23 +3,19 @@ package io.github.skydynamic.utils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.TicketType;
-import net.minecraft.world.entity.projectile.ThrownEnderpearl;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownEnderpearl;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import static net.minecraft.server.level.TicketType.create;
 
 public class EnderPearlChunkLoader {
     private static final HashMap<ServerPlayer, Set<ThrownEnderpearl>> enderPearls = new HashMap<>();
 
-    private static final TicketType<ChunkPos> ENDER_PEARL = create(
-        "ender_pearl", Comparator.comparingLong(ChunkPos::toLong), 40
-    );
+    private static final TicketType ENDER_PEARL = TicketType.ENDER_PEARL;
 
     public static void registerEnderPearl(ThrownEnderpearl thrownEnderpearl) {
         ServerPlayer owner = (ServerPlayer) thrownEnderpearl.getOwner();
@@ -48,7 +44,7 @@ public class EnderPearlChunkLoader {
     }
 
     public static long placeEnderPearlTicket(ServerLevel serverLevel, ChunkPos chunkPos) {
-        serverLevel.getChunkSource().addRegionTicket(ENDER_PEARL, chunkPos, 2, chunkPos);
+        serverLevel.getChunkSource().addTicketWithRadius(ENDER_PEARL, chunkPos, 2);
         return ENDER_PEARL.timeout();
     }
 }

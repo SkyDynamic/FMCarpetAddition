@@ -8,9 +8,9 @@ import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
-import net.minecraft.world.entity.projectile.ThrownEnderpearl;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownEnderpearl;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -31,7 +31,7 @@ public abstract class MixinThrownEnderpearl extends ThrowableItemProjectile {
         method = "onHit",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/projectile/ThrownEnderpearl;discard()V"
+            target = "Lnet/minecraft/world/entity/projectile/throwableitemprojectile/ThrownEnderpearl;discard()V"
         )
     )
     private void onHitDiscard(CallbackInfo ci) {
@@ -45,7 +45,7 @@ public abstract class MixinThrownEnderpearl extends ThrowableItemProjectile {
         method = "tick",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/projectile/ThrownEnderpearl;discard()V"
+            target = "Lnet/minecraft/world/entity/projectile/throwableitemprojectile/ThrownEnderpearl;discard()V"
         )
     )
     private void onTickDiscard(CallbackInfo ci) {
@@ -72,7 +72,7 @@ public abstract class MixinThrownEnderpearl extends ThrowableItemProjectile {
                 j = SectionPos.blockToSectionCoord(thrownEnderpearl.position().z());
                 entity = thrownEnderpearl.getOwner();
                 if (entity instanceof ServerPlayer serverPlayer) {
-                    if (!entity.isAlive() && serverPlayer.serverLevel().getGameRules().getBoolean(GameRules.RULE_ENDER_PEARLS_VANISH_ON_DEATH)) {
+                    if (!entity.isAlive() && serverPlayer.level().getGameRules().get(GameRules.ENDER_PEARLS_VANISH_ON_DEATH)) {
                         thrownEnderpearl.discard();
                         break label30;
                     }

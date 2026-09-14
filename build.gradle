@@ -1,5 +1,5 @@
 plugins {
-	id "fabric-loom" version "1.7-SNAPSHOT"
+	id "net.fabricmc.fabric-loom" version "1.17.1"
 	id "maven-publish"
 }
 
@@ -25,15 +25,10 @@ repositories {
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.property("dependencies.minecraft_version")}"
-	mappings loom.officialMojangMappings()
-	modImplementation "net.fabricmc:fabric-loader:${project.property("dependencies.loader_version")}"
+	implementation "net.fabricmc:fabric-loader:${project.property("dependencies.loader_version")}"
 
 	// Carpet
-	modImplementation "carpet:fabric-carpet:${project.property("dependencies.minecraft_version")}-${project.property("dependencies.carpet_core_version")}"
-
-	// Lombok
-	compileOnly 'org.projectlombok:lombok:1.18.34'
-	annotationProcessor 'org.projectlombok:lombok:1.18.34'
+	implementation "carpet:fabric-carpet:${project.property("dependencies.carpet_core_version")}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	// modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
@@ -56,14 +51,14 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+	it.options.release = Integer.parseInt(project.property("java_version"))
 }
 
 java {
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.toVersion(project.property("java_version"))
+	targetCompatibility = JavaVersion.toVersion(project.property("java_version"))
 }
 
 jar {
