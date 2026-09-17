@@ -52,7 +52,7 @@ public class MixinPistonBaseBlock {
         if (
             FuckMojangCarpetAdditionSettings.pistonBlockChunkLoader.equals("bone_block")
             || FuckMojangCarpetAdditionSettings.pistonBlockChunkLoader.equals("all")
-            && !level.isClientSide
+            && !level.isClientSide()
         ) {
             Direction direction = blockState.getValue(DirectionalBlock.FACING);
             BlockState pistonBlock = level.getBlockState(blockPos.above(1));
@@ -61,15 +61,15 @@ public class MixinPistonBaseBlock {
                 || FuckMojangCarpetAdditionSettings.pistonBlockChunkLoader.equals("all")
                 && (pistonBlock.getBlock() == Blocks.BONE_BLOCK)
             ) {
-                ChunkPos chunkPos = new ChunkPos(blockPos.relative(direction));
-                ((ServerLevel) level).getChunkSource().addRegionTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
+                ChunkPos chunkPos = ChunkPos.containing(blockPos.relative(direction));
+                ((ServerLevel) level).getChunkSource().addTicketWithRadius(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3);
             }
         }
 
         if (
             FuckMojangCarpetAdditionSettings.pistonBlockChunkLoader.equals("bedrock")
             || FuckMojangCarpetAdditionSettings.pistonBlockChunkLoader.equals("all")
-            && !level.isClientSide
+            && !level.isClientSide()
         ) {
             Direction direction = blockState.getValue(DirectionalBlock.FACING);
             BlockState pistonBlock = level.getBlockState(blockPos.below(1));
@@ -78,8 +78,8 @@ public class MixinPistonBaseBlock {
                 || FuckMojangCarpetAdditionSettings.pistonBlockChunkLoader.equals("all")
                 && (pistonBlock.getBlock() == Blocks.BEDROCK)
             ) {
-                ChunkPos chunkPos = new ChunkPos(blockPos.relative(direction).below(1));
-                ((ServerLevel) level).getChunkSource().addRegionTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
+                ChunkPos chunkPos = ChunkPos.containing(blockPos.relative(direction).below(1));
+                ((ServerLevel) level).getChunkSource().addTicketWithRadius(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3);
             }
         }
     }

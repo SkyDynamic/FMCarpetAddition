@@ -30,29 +30,29 @@ public class MixinNoteBlock {
         BlockPos pos,
         CallbackInfo ci
     ) {
-        if (FuckMojangCarpetAdditionSettings.noteBlockChunkLoader.equals("note_block") && !level.isClientSide) {
-            ChunkPos chunkPos = new ChunkPos(pos);
-            ((ServerLevel) level).getChunkSource().addRegionTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
+        if (FuckMojangCarpetAdditionSettings.noteBlockChunkLoader.equals("note_block") && !level.isClientSide()) {
+            ChunkPos chunkPos = ChunkPos.containing(pos);
+            ((ServerLevel) level).getChunkSource().addTicketWithRadius(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3);
         }
-        if (FuckMojangCarpetAdditionSettings.noteBlockChunkLoader.equals("bone_block") && !level.isClientSide) {
+        if (FuckMojangCarpetAdditionSettings.noteBlockChunkLoader.equals("bone_block") && !level.isClientSide()) {
             BlockState noteBlock = level.getBlockState(pos.above(1));
             if (
                 Objects.equals(FuckMojangCarpetAdditionSettings.noteBlockChunkLoader, "bone_block")
                 && (noteBlock.getBlock() == Blocks.BONE_BLOCK)
             ) {
-                ChunkPos chunkPos = new ChunkPos(pos.above(1));
-                ((ServerLevel) level).getChunkSource().addRegionTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
+                ChunkPos chunkPos = ChunkPos.containing(pos.above(1));
+                ((ServerLevel) level).getChunkSource().addTicketWithRadius(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3);
             }
         }
-        if (FuckMojangCarpetAdditionSettings.noteBlockChunkLoader.equals("wither_skeleton_skull") && !level.isClientSide) {
+        if (FuckMojangCarpetAdditionSettings.noteBlockChunkLoader.equals("wither_skeleton_skull") && !level.isClientSide()) {
             BlockState noteBlock = level.getBlockState(pos.above(1));
             if (
                 FuckMojangCarpetAdditionSettings.noteBlockChunkLoader.equals("wither_skeleton_skull")
                 && (noteBlock.getBlock() == Blocks.WITHER_SKELETON_SKULL)
                 || (noteBlock.getBlock() == Blocks.WITHER_SKELETON_WALL_SKULL)
             ) {
-                ChunkPos chunkPos = new ChunkPos(pos.above(1));
-                ((ServerLevel) level).getChunkSource().addRegionTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
+                ChunkPos chunkPos = ChunkPos.containing(pos.above(1));
+                ((ServerLevel) level).getChunkSource().addTicketWithRadius(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3);
             }
         }
     }
